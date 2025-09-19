@@ -11,6 +11,7 @@ function App() {
       <Featured />
       <Discounted />
       <Explore />
+      <Footer />
     </div>
   );
 }
