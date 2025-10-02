@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import Price from "../Components/ul/Price"
 import Rating from "../Components/ul/Rating"
 
-const BookInfo = ({ books }) => {
+const BookInfo = ({ books, addToCart }) => {
     const { id } = useParams()
     const book = books.find(book => book.id === id)
     console.log(book)
@@ -25,11 +25,11 @@ const BookInfo = ({ books }) => {
                         </div>
                         <div className="book__selected">
                             <figure className="book__selected--figure">
-                                <img src="https://covers.openlibrary.org/b/id/8091016-L.jpg" alt="" className='book__selected--ig' />
+                                <img src={book.url} alt="" className='book__selected--img' />
                             </figure>
                             <div className="book__selected--description">
-                                <h2 className='book__selected--title'>Crack the coding interview</h2>
-                                <Rating rating="4.5" />
+                                <h2 className='book__selected--title'>{book.title}</h2>
+                                <Rating rating={book.rating} />
                                 <div className="book__selected--price">
                                     <Price originalPrice={book.originalPrice} salePrice={book.salePrice} />
                                 </div>
@@ -42,7 +42,7 @@ const BookInfo = ({ books }) => {
                                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dicta vitae nisi velit minus doloribus iste pariatur nulla praesentium ipsa ipsum illo, eligendi doloremque? Adipisci inventore odit id cum dolor!
                                     </p>
                                 </div>
-                                <button className="btn">
+                                <button className="btn" onClick={() => addToCart(book)}>
                                     Add to cart
                                 </button>
                             </div>
