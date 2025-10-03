@@ -1,15 +1,23 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import Price from "../Components/ul/Price"
 import Rating from "../Components/ul/Rating"
 
 const BookInfo = ({ books, addToCart }) => {
     const { id } = useParams()
-    const book = books.find(book => book.id === id)
-    console.log(book)
+    const book = books.find(book => +book.id === +id)
+    const { added, setAdded } = useState(false)
 
-    console.log(id)
+    function addBookToCart(book) {
+        setAdded(true)
+        addToCart(book)
+    }
+
+    function bookExistsOnCart() {
+        return cart.find(book => book.id === +id)
+    }
+
     return (
         <div id="books__body">
             <main id="books__main">
@@ -17,10 +25,10 @@ const BookInfo = ({ books, addToCart }) => {
                     <div className="row">
                         <div className="books__selected--top">
                             <Link to="/books" className="book__link">
-                            <FontAwesomeIcon icon="arrow-left" />
+                                <FontAwesomeIcon icon="arrow-left" />
                             </Link>
                             <Link to="/books" className="book__link">
-                            <h2 className='book__selected--title--top'>Books</h2>
+                                <h2 className='book__selected--title--top'>Books</h2>
                             </Link>
                         </div>
                         <div className="book__selected">
@@ -38,13 +46,21 @@ const BookInfo = ({ books, addToCart }) => {
                                     <p className="book__summary--para">
                                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dicta vitae nisi velit minus doloribus iste pariatur nulla praesentium ipsa ipsum illo, eligendi doloremque? Adipisci inventore odit id cum dolor!
                                     </p>
-                                      <p className="book__summary--para">
+                                    <p className="book__summary--para">
                                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dicta vitae nisi velit minus doloribus iste pariatur nulla praesentium ipsa ipsum illo, eligendi doloremque? Adipisci inventore odit id cum dolor!
                                     </p>
                                 </div>
-                                <button className="btn" onClick={() => addToCart(book)}>
-                                    Add to cart
-                                </button>
+                                {
+                                    bookExistsOnCart() ? (
+                                    <Link to={`/cart`} className='book__link'>
+                                      <button className="btn">Checkout</button>  
+                                    </Link>
+                                    ) : (
+                                    <button className="btn" onClick={() => addBookToCart(book)}>
+                                        Add to cart
+                                    </button>)
+                                }
+
                             </div>
                         </div>
                     </div>
@@ -58,11 +74,11 @@ const BookInfo = ({ books, addToCart }) => {
                             </h2>
                         </div>
                         <div className="books">
-                          {
+                            {
                                 books.filter((book) => book.rating === 5 && +book.id !== +id)
-                                .slice(0, 4)
-                                .map((book) => (<Book book={book} key={book.id} />))
-                            }  
+                                    .slice(0, 4)
+                                    .map((book) => (<Book book={book} key={book.id} />))
+                            }
                         </div>
                     </div>
                 </div>

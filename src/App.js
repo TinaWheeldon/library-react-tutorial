@@ -12,15 +12,11 @@ function App() {
   const [cart, setCart] = useState([]);
   
 function addToCart(book) {
-  const dupeItem = cart.find(item => +item.id === +book.id)
-  if (dupeItem) {
-    dupeItem.quantity +=1;
-  }
-  setCart([...cart, {...book, quantity: 1}])
+ setCart([... cart, book])
 }
 
 useEffect (() => {
-//  console.log(cart)
+  console.log(cart)
 }, [cart])
 
   return (
